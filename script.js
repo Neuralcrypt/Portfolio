@@ -43,15 +43,16 @@ function initParticles() {
         reset() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.speedY = (Math.random() - 0.5) * 0.5;
-            this.opacity = Math.random() * 0.5 + 0.1;
+            this.size = Math.random() * 1.5 + 0.4;
+            this.speedX = (Math.random() - 0.5) * 0.4;
+            this.speedY = (Math.random() - 0.5) * 0.4;
+            this.opacity = Math.random() * 0.35 + 0.08;
+            // Light-theme palette: subtle indigo / purple / emerald / sky
             const colors = [
+                '79, 70, 229',    // Indigo
                 '124, 58, 237',   // Purple
-                '6, 182, 212',    // Cyan
-                '16, 185, 129',   // Emerald
-                '167, 139, 250',  // Light purple
+                '5, 150, 105',    // Emerald
+                '2, 132, 199',    // Sky
             ];
             this.color = colors[Math.floor(Math.random() * colors.length)];
         }
@@ -97,12 +98,12 @@ function initParticles() {
                 const dy = particles[i].y - particles[j].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
-                if (dist < 120) {
-                    const opacity = (1 - dist / 120) * 0.15;
+                if (dist < 110) {
+                    const opacity = (1 - dist / 110) * 0.10;
                     ctx.beginPath();
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(124, 58, 237, ${opacity})`;
+                    ctx.strokeStyle = `rgba(79, 70, 229, ${opacity})`;
                     ctx.lineWidth = 0.5;
                     ctx.stroke();
                 }
@@ -416,8 +417,8 @@ function initNeuralNetwork() {
                     ctx.lineTo(nodes[j].x, nodes[j].y);
 
                     const grad = ctx.createLinearGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
-                    grad.addColorStop(0, `rgba(124, 58, 237, ${opacity})`);
-                    grad.addColorStop(1, `rgba(6, 182, 212, ${opacity})`);
+                    grad.addColorStop(0, `rgba(79, 70, 229, ${opacity * 2})`);
+                    grad.addColorStop(1, `rgba(124, 58, 237, ${opacity * 2})`);
                     ctx.strokeStyle = grad;
                     ctx.lineWidth = 1;
                     ctx.stroke();
@@ -428,7 +429,7 @@ function initNeuralNetwork() {
                         const py = nodes[i].y + (nodes[j].y - nodes[i].y) * t;
                         ctx.beginPath();
                         ctx.arc(px, py, 1.5, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(6, 182, 212, 0.6)`;
+                        ctx.fillStyle = `rgba(79, 70, 229, 0.7)`;
                         ctx.fill();
                     }
                 }
@@ -437,18 +438,20 @@ function initNeuralNetwork() {
 
         nodes.forEach((node, i) => {
             const pulse = (Math.sin(animationPhase * 3 + i) + 1) / 2;
-            const radius = node.radius + pulse * 2;
+            const radius = node.radius;
 
+            // Node glow
             ctx.beginPath();
             ctx.arc(node.x, node.y, radius + 6, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(124, 58, 237, ${0.05 + pulse * 0.08})`;
+            ctx.fillStyle = `rgba(79, 70, 229, ${0.08 + pulse * 0.10})`;
             ctx.fill();
 
+            // Node fill
             ctx.beginPath();
             ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
             const grad = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, radius);
-            grad.addColorStop(0, `rgba(167, 139, 250, ${0.8 + pulse * 0.2})`);
-            grad.addColorStop(1, `rgba(124, 58, 237, ${0.4 + pulse * 0.3})`);
+            grad.addColorStop(0, `rgba(99, 91, 255, ${0.85 + pulse * 0.15})`);
+            grad.addColorStop(1, `rgba(79, 70, 229, ${0.5 + pulse * 0.3})`);
             ctx.fillStyle = grad;
             ctx.fill();
         });
