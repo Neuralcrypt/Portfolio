@@ -1,6 +1,6 @@
 /* ============================================
    PORTFOLIO – MAIN JAVASCRIPT
-   Abhishek Prasad | AI/ML Engineer
+   Abhishek Prasad | Machine Learning Engineer
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCountUp();
     initNeuralNetwork();
     initContactForm();
+    initWhatsAppConnect();
     initSmoothScroll();
     initTiltEffect();
     initLightbox();
@@ -46,7 +47,6 @@ function initParticles() {
             this.speedX = (Math.random() - 0.5) * 0.5;
             this.speedY = (Math.random() - 0.5) * 0.5;
             this.opacity = Math.random() * 0.5 + 0.1;
-            // AI-themed colors
             const colors = [
                 '124, 58, 237',   // Purple
                 '6, 182, 212',    // Cyan
@@ -60,7 +60,6 @@ function initParticles() {
             this.x += this.speedX;
             this.y += this.speedY;
 
-            // Mouse interaction
             if (mouse.x !== null) {
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
@@ -72,7 +71,6 @@ function initParticles() {
                 }
             }
 
-            // Wrap around
             if (this.x < 0) this.x = width;
             if (this.x > width) this.x = 0;
             if (this.y < 0) this.y = height;
@@ -150,7 +148,6 @@ function initCustomCursor() {
     const outline = document.getElementById('cursor-outline');
     if (!dot || !outline) return;
 
-    // Check for touch device
     if ('ontouchstart' in window) {
         dot.style.display = 'none';
         outline.style.display = 'none';
@@ -177,8 +174,9 @@ function initCustomCursor() {
     }
     animateOutline();
 
-    // Hover effect on interactive elements
-    const hoverTargets = document.querySelectorAll('a, button, .project-card, .skill-chip, .info-item, .contact-item, .timeline-card, .social-link, .gallery-img-wrapper, .gallery-item');
+    const hoverTargets = document.querySelectorAll(
+        'a, button, .project-card-ml, .skill-chip, .info-item, .contact-item, .timeline-card, .social-link, .gallery-img-wrapper, .gallery-item, .whatsapp-cta'
+    );
     hoverTargets.forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
@@ -194,30 +192,21 @@ function initNavbar() {
     const links = document.getElementById('nav-links');
     const navAnchors = document.querySelectorAll('.nav-link');
 
-    // Scroll effect
-    let lastScroll = 0;
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
-
         if (scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-
-        lastScroll = scrollY;
-
-        // Active section highlighting
         updateActiveNavLink();
     });
 
-    // Mobile toggle
     toggle.addEventListener('click', () => {
         toggle.classList.toggle('active');
         links.classList.toggle('active');
     });
 
-    // Close mobile menu on link click
     navAnchors.forEach(anchor => {
         anchor.addEventListener('click', () => {
             toggle.classList.remove('active');
@@ -247,18 +236,19 @@ function initNavbar() {
 }
 
 /* ============================================
-   4. TYPING EFFECT
+   4. TYPING EFFECT – ML FOCUSED
    ============================================ */
 function initTypingEffect() {
     const el = document.getElementById('typed-text');
     if (!el) return;
 
     const phrases = [
-        'AI/ML Engineer',
+        'Machine Learning Engineer',
+        'Data Science Practitioner',
         'Computer Vision Developer',
-        'Deep Learning Enthusiast',
-        'Flutter Developer',
-        'Python Programmer',
+        'AI Application Builder',
+        'AWS Cloud Deployer',
+        'Python ML Developer',
     ];
 
     let phraseIdx = 0;
@@ -280,12 +270,12 @@ function initTypingEffect() {
         }
 
         if (!isDeleting && charIdx === current.length) {
-            speed = 2000; // Pause at end
+            speed = 2200;
             isDeleting = true;
         } else if (isDeleting && charIdx === 0) {
             isDeleting = false;
             phraseIdx = (phraseIdx + 1) % phrases.length;
-            speed = 500; // Pause before next phrase
+            speed = 500;
         }
 
         setTimeout(type, speed);
@@ -300,7 +290,6 @@ function initTypingEffect() {
 function initScrollReveal() {
     const reveals = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
 
-    // Immediately reveal hero elements
     const heroReveals = document.querySelectorAll('.hero .reveal-up');
     heroReveals.forEach((el, i) => {
         setTimeout(() => {
@@ -311,7 +300,6 @@ function initScrollReveal() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Stagger animation for grouped elements
                 const delay = entry.target.style.animationDelay || '0s';
                 const delayMs = parseFloat(delay) * 1000;
 
@@ -328,7 +316,6 @@ function initScrollReveal() {
     });
 
     reveals.forEach(el => {
-        // Don't observe hero elements (handled above)
         if (!el.closest('.hero')) {
             observer.observe(el);
         }
@@ -353,8 +340,6 @@ function initCountUp() {
                 function update(currentTime) {
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-
-                    // Ease out cubic
                     const ease = 1 - Math.pow(1 - progress, 3);
                     const current = target * ease;
 
@@ -392,7 +377,7 @@ function initNeuralNetwork() {
 
     resize();
 
-    const layers = [4, 6, 8, 6, 3]; // Neural network layer structure
+    const layers = [4, 6, 8, 6, 3];
     let nodes = [];
     let animationPhase = 0;
 
@@ -420,7 +405,6 @@ function initNeuralNetwork() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         animationPhase += 0.005;
 
-        // Draw connections
         for (let i = 0; i < nodes.length; i++) {
             for (let j = 0; j < nodes.length; j++) {
                 if (nodes[j].layer === nodes[i].layer + 1) {
@@ -438,32 +422,28 @@ function initNeuralNetwork() {
                     ctx.lineWidth = 1;
                     ctx.stroke();
 
-                    // Travelling pulse dot
                     if (pulse > 0.7) {
                         const t = (pulse - 0.7) / 0.3;
                         const px = nodes[i].x + (nodes[j].x - nodes[i].x) * t;
                         const py = nodes[i].y + (nodes[j].y - nodes[i].y) * t;
                         ctx.beginPath();
                         ctx.arc(px, py, 1.5, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(6, 182, 212, ${0.6})`;
+                        ctx.fillStyle = `rgba(6, 182, 212, 0.6)`;
                         ctx.fill();
                     }
                 }
             }
         }
 
-        // Draw nodes
         nodes.forEach((node, i) => {
             const pulse = (Math.sin(animationPhase * 3 + i) + 1) / 2;
             const radius = node.radius + pulse * 2;
 
-            // Glow
             ctx.beginPath();
             ctx.arc(node.x, node.y, radius + 6, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(124, 58, 237, ${0.05 + pulse * 0.08})`;
             ctx.fill();
 
-            // Node
             ctx.beginPath();
             ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
             const grad = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, radius);
@@ -486,7 +466,38 @@ function initNeuralNetwork() {
 }
 
 /* ============================================
-   8. CONTACT FORM
+   8. WHATSAPP HELPER
+   ============================================ */
+
+/**
+ * Builds a WhatsApp URL that opens a chat to Abhishek's number with
+ * a pre-filled message. Provide `name`, `email`, `subject`, `message`
+ * to get a fully-formatted message, or pass an empty object to send a
+ * generic "Let's connect" ping.
+ */
+function buildWhatsAppUrl({ name = '', email = '', subject = '', message = '' } = {}) {
+    const phone = '919835268065'; // Country code + number, no spaces/dashes
+    let text;
+
+    if (name && message) {
+        text =
+            `🤝 *New Portfolio Message*%0A%0A` +
+            `👤 *Name:* ${encodeURIComponent(name)}%0A` +
+            `📧 *Email:* ${encodeURIComponent(email)}%0A` +
+            `📌 *Subject:* ${encodeURIComponent(subject || 'General Inquiry')}%0A%0A` +
+            `💬 *Message:*%0A${encodeURIComponent(message)}`;
+    } else {
+        text =
+            `👋 Hi Abhishek! I came across your ML portfolio and would love to connect.%0A%0A` +
+            `I'm interested in discussing potential opportunities in Machine Learning / Data Science / AI Engineering.%0A%0A` +
+            `Looking forward to speaking with you! 🚀`;
+    }
+
+    return `https://wa.me/${phone}?text=${text}`;
+}
+
+/* ============================================
+   9. CONTACT FORM → WhatsApp
    ============================================ */
 function initContactForm() {
     const form = document.getElementById('contact-form');
@@ -496,58 +507,86 @@ function initContactForm() {
         e.preventDefault();
 
         const btn = document.getElementById('form-submit');
-        const originalText = btn.querySelector('.btn-text').textContent;
+        const btnText = btn.querySelector('.btn-text');
+        const originalText = btnText.textContent;
 
-        // Get form values
-        const name = document.getElementById('form-name').value;
-        const email = document.getElementById('form-email').value;
-        const subject = document.getElementById('form-subject').value || 'General Inquiry';
-        const message = document.getElementById('form-message').value;
+        const name    = document.getElementById('form-name').value.trim();
+        const email   = document.getElementById('form-email').value.trim();
+        const subject = document.getElementById('form-subject').value.trim();
+        const message = document.getElementById('form-message').value.trim();
 
-        // Update button state immediately
-        btn.querySelector('.btn-text').textContent = 'Opening WhatsApp...';
-        btn.disabled = true;
-        btn.style.opacity = '0.7';
-
-        // Construct WhatsApp Message
-        const whatsappText = `*New Portfolio Message*%0A%0A` +
-            `*Name:* ${encodeURIComponent(name)}%0A` +
-            `*Email:* ${encodeURIComponent(email)}%0A` +
-            `*Subject:* ${encodeURIComponent(subject)}%0A%0A` +
-            `*Message:*%0A${encodeURIComponent(message)}`;
-
-        const whatsappUrl = `https://wa.me/919835268065?text=${whatsappText}`;
-
-        // Open WhatsApp immediately to avoid popup blocker
-        window.open(whatsappUrl, '_blank');
-
-        // Success state UI (on the page)
-        setTimeout(() => {
-            btn.querySelector('.btn-text').textContent = 'Redirected! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)';
-            
+        // Quick validation feedback
+        if (!name || !message) {
+            btnText.textContent = 'Please fill required fields';
+            btn.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
             setTimeout(() => {
-                btn.querySelector('.btn-text').textContent = originalText;
+                btnText.textContent = originalText;
+                btn.style.background = '';
+            }, 2500);
+            return;
+        }
+
+        btnText.textContent = 'Opening WhatsApp…';
+        btn.disabled = true;
+        btn.style.opacity = '0.75';
+
+        const url = buildWhatsAppUrl({ name, email, subject, message });
+        window.open(url, '_blank');
+
+        setTimeout(() => {
+            btnText.textContent = 'Message Sent! ✓';
+            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)';
+            btn.style.opacity = '1';
+
+            setTimeout(() => {
+                btnText.textContent = originalText;
                 btn.disabled = false;
-                btn.style.opacity = '1';
                 btn.style.background = '';
                 form.reset();
             }, 3000);
-        }, 500);
+        }, 600);
     });
 }
 
 /* ============================================
-   9. SMOOTH SCROLL
+   10. "LET'S CONNECT" BUTTON → WhatsApp
+       Applies to the About section button AND
+       any element with data-whatsapp="connect"
+   ============================================ */
+function initWhatsAppConnect() {
+    // About section "Let's Connect" button
+    const aboutBtn = document.getElementById('about-connect-btn');
+    if (aboutBtn) {
+        aboutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const url = buildWhatsAppUrl(); // generic greeting
+            window.open(url, '_blank');
+        });
+    }
+
+    // Any other elements tagged as whatsapp connect triggers
+    document.querySelectorAll('[data-whatsapp="connect"]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open(buildWhatsAppUrl(), '_blank');
+        });
+    });
+}
+
+/* ============================================
+   11. SMOOTH SCROLL
    ============================================ */
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        // Skip anchors that are handled by WhatsApp
+        if (anchor.id === 'about-connect-btn') return;
+
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             const target = document.querySelector(targetId);
             if (target) {
-                const offsetTop = target.offsetTop - 72; // nav height
+                const offsetTop = target.offsetTop - 72;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
@@ -558,12 +597,11 @@ function initSmoothScroll() {
 }
 
 /* ============================================
-   10. TILT EFFECT ON PROJECT CARDS
+   12. TILT EFFECT ON PROJECT CARDS
    ============================================ */
 function initTiltEffect() {
-    const cards = document.querySelectorAll('.project-card, .gallery-card');
+    const cards = document.querySelectorAll('.project-card-ml, .gallery-card');
 
-    // Skip on touch devices
     if ('ontouchstart' in window) return;
 
     cards.forEach(card => {
@@ -574,10 +612,10 @@ function initTiltEffect() {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
 
-            const rotateX = ((y - centerY) / centerY) * -5;
-            const rotateY = ((x - centerX) / centerX) * 5;
+            const rotateX = ((y - centerY) / centerY) * -4;
+            const rotateY = ((x - centerX) / centerX) * 4;
 
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
         });
 
         card.addEventListener('mouseleave', () => {
@@ -587,18 +625,16 @@ function initTiltEffect() {
 }
 
 /* ============================================
-   11. PARALLAX ON SCROLL (subtle)
+   13. PARALLAX ON SCROLL (subtle)
    ============================================ */
 window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
 
-    // Parallax the hero visual
     const heroVisual = document.querySelector('.hero-visual');
     if (heroVisual && scrollY < window.innerHeight) {
-        heroVisual.style.transform = `translateY(${scrollY * 0.15}px)`;
+        heroVisual.style.transform = `translateY(${scrollY * 0.12}px)`;
     }
 
-    // Parallax floating icons
     const floatIcons = document.querySelectorAll('.float-icon');
     floatIcons.forEach((icon, i) => {
         const speed = 0.05 + i * 0.02;
@@ -607,16 +643,16 @@ window.addEventListener('scroll', () => {
 });
 
 /* ============================================
-   12. LIGHTBOX CONTEXT
+   14. LIGHTBOX
    ============================================ */
 function initLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
+    const lightbox        = document.getElementById('lightbox');
+    const lightboxImg     = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
-    const closeBtn = document.getElementById('lightbox-close');
-    const prevBtn = document.getElementById('lightbox-prev');
-    const nextBtn = document.getElementById('lightbox-next');
-    const galleryImgs = document.querySelectorAll('.gallery-img-wrapper');
+    const closeBtn        = document.getElementById('lightbox-close');
+    const prevBtn         = document.getElementById('lightbox-prev');
+    const nextBtn         = document.getElementById('lightbox-next');
+    const galleryImgs     = document.querySelectorAll('.gallery-img-wrapper');
 
     let currentIndex = 0;
 
@@ -625,13 +661,13 @@ function initLightbox() {
     function openLightbox(index) {
         currentIndex = index;
         const wrapper = galleryImgs[currentIndex];
-        const img = wrapper.querySelector('img');
+        const img     = wrapper.querySelector('img');
         const caption = wrapper.getAttribute('data-caption');
 
         lightboxImg.src = img.src;
         lightboxCaption.textContent = caption;
         lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scroll
+        document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
@@ -654,23 +690,15 @@ function initLightbox() {
     });
 
     closeBtn.addEventListener('click', closeLightbox);
-    nextBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        showNext();
-    });
-    prevBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        showPrev();
-    });
+    nextBtn.addEventListener('click', e => { e.stopPropagation(); showNext(); });
+    prevBtn.addEventListener('click', e => { e.stopPropagation(); showPrev(); });
 
     lightbox.querySelector('.lightbox-overlay').addEventListener('click', closeLightbox);
 
-    // Keyboard navigation
     document.addEventListener('keydown', e => {
         if (!lightbox.classList.contains('active')) return;
-        
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowRight') showNext();
-        if (e.key === 'ArrowLeft') showPrev();
+        if (e.key === 'Escape')      closeLightbox();
+        if (e.key === 'ArrowRight')  showNext();
+        if (e.key === 'ArrowLeft')   showPrev();
     });
 }
